@@ -16,7 +16,7 @@ type CategoryProps = RectButtonProps & {
 export function Category({
     title,
     icon: Icon,
-    hasCheckBox = true,
+    hasCheckBox = false,
     checked = false,
     ...rest
 }: CategoryProps) {

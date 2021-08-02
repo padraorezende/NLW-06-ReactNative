@@ -1,5 +1,5 @@
 import React from "react"
-import { ImageBackground, View, Text } from "react-native"
+import { ImageBackground, View, Text, FlatList } from "react-native"
 import { BorderlessButton } from "react-native-gesture-handler"
 import { Background } from "../../components/Background"
 import { Header } from "../../components/Header"
@@ -8,9 +8,32 @@ import { Fontisto } from "@expo/vector-icons"
 import { theme } from "../../global/styles/theme"
 import BannerImg from "../../assets/banner.png"
 import { ListHeader } from "../../components/ListHeader"
+import { Member } from "../../components/Member"
 
 
 export function AppointmentDetails() {
+    const members = [
+        {
+            id: "1",
+            username: "Lucas",
+            avatar_url: "https://github.com/padraorezende.png",
+            status: "online"
+        },
+        {
+            id: "2",
+            username: "Lucas",
+            avatar_url: "https://github.com/padraorezende.png",
+            status: "ofline"
+        },
+        {
+            id: "3",
+            username: "Lucas",
+            avatar_url: "https://github.com/padraorezende.png",
+            status: "online"
+        },
+    ]
+
+    
     return (
         <Background>
             <Header title="Detalhes" action={
@@ -31,8 +54,12 @@ export function AppointmentDetails() {
 
             </ImageBackground>
 
-
             <ListHeader title="Jogadores" subtitle="Total 3"/>
+            
+            <FlatList data={members} keyExtractor={item => item.id} 
+            renderItem={({item})=>(
+                <Member data={item}/>
+            )}/>
 
         </Background>
     )

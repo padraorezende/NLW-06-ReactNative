@@ -22,6 +22,9 @@ export function Home() {
     function handleAppointmentDetails(){
         navigate.navigate("AppointmentDetails");
     }
+    function handleAppointmentCreate(){
+        navigate.navigate("AppointmentCreate");
+    }
 
     const appointments =[
         {
@@ -56,7 +59,7 @@ export function Home() {
         <Background>
             <View style={styles.header}>
                 <Profile />
-                <ButtonAdd />
+                <ButtonAdd onPress={handleAppointmentCreate}/>
             </View>
             <View>
                 <CategorySelect categorySelected={category} setCategory={handleCategorySelect} />

@@ -12,12 +12,19 @@ export const styles = StyleSheet.create({
         fontSize: 18,
         color: theme.colors.heading
     },
-    status:{
-        
-    },
     nameStatus:{
         fontFamily: theme.fonts.text400,
         fontSize: 13,
         color: theme.colors.highlight
+    },
+    status:{
+        flexDirection:"row",
+        alignItems: "center"
+    },
+    bulletStatus:{
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        marginRight: 9
     }
 })

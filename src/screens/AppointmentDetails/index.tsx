@@ -9,6 +9,8 @@ import { theme } from "../../global/styles/theme"
 import BannerImg from "../../assets/banner.png"
 import { ListHeader } from "../../components/ListHeader"
 import { Member } from "../../components/Member"
+import { ListDivider } from "../../components/ListDivider"
+import { ButtonIcon } from "../../components/ButtonIcon"
 
 
 export function AppointmentDetails() {
@@ -33,7 +35,7 @@ export function AppointmentDetails() {
         },
     ]
 
-    
+
     return (
         <Background>
             <Header title="Detalhes" action={
@@ -54,12 +56,16 @@ export function AppointmentDetails() {
 
             </ImageBackground>
 
-            <ListHeader title="Jogadores" subtitle="Total 3"/>
-            
-            <FlatList data={members} keyExtractor={item => item.id} 
-            renderItem={({item})=>(
-                <Member data={item}/>
-            )}/>
+            <ListHeader title="Jogadores" subtitle="Total 3" />
+
+            <FlatList data={members} keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <Member data={item} />
+                )} ItemSeparatorComponent={() => <ListDivider />} style={styles.members} />
+
+            <View style={styles.footer}>
+                <ButtonIcon titlle="Entrar na partida" />
+            </View>
 
         </Background>
     )

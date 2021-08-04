@@ -36,6 +36,12 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.secondary50,
         borderWidth:1,
         borderRadius:8
+    },
+    field:{
+
+    },
+    column:{
+        
     }
     
 })

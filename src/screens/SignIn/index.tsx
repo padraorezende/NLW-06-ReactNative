@@ -1,16 +1,17 @@
 import React from "react";
-import { Text, View, Image, Alert } from "react-native"
+import { Text, View, Image, Alert, ActivityIndicator } from "react-native"
 import { styles } from "./styles";
 import IllustrationImg from "../../assets/illustration.png"
 import { ButtonIcon } from "../../components/ButtonIcon";
 
 import { Background } from "../../components/Background";
 import { useAuth } from "../../hooks/auth";
+import { theme } from "../../global/styles/theme";
 
 
 
 export function SignIn() {
-    const {user, signIn} = useAuth();
+    const {loading, signIn} = useAuth();
 
 
     async function handleSignIn() {
@@ -35,7 +36,7 @@ export function SignIn() {
                         Crie grupos para jogar seus games {'\n'} favoritos com seus amigos
                     </Text>
 
-                    <ButtonIcon titlle="Entrar no Discord" onPress={handleSignIn} />
+                    {loading ? <ActivityIndicator color={theme.colors.primary}/> : <ButtonIcon titlle="Entrar no Discord" onPress={handleSignIn} />}
                 </View>
             </View>
         </Background>

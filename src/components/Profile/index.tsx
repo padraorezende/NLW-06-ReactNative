@@ -1,5 +1,6 @@
 import React from "react"
 import { Text, View } from "react-native"
+import { useAuth } from "../../hooks/auth"
 import { Avatar } from "../Avatar"
 import { styles } from "./styles"
 
@@ -8,10 +9,12 @@ type ProfileProps = {
 }
 
 export function Profile({ }: ProfileProps) {
+    const {user} = useAuth();
+
     return (
         <View style={styles.container}>
 
-            <Avatar urlImage="https://github.com/padraorezende.png"/>
+            <Avatar urlImage={user.avatar}/>
 
             <View>
                 <View style={styles.user}>
@@ -20,7 +23,7 @@ export function Profile({ }: ProfileProps) {
                     </Text>
 
                     <Text style={styles.username}>
-                        Lucas
+                       {user.firstName}
                     </Text>
                 </View>
 

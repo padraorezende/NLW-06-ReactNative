@@ -1,17 +1,20 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { FlatList, View, Text } from "react-native"
-import { Appointment } from "../../components/Appointment";
+import { Appointment, AppointmentProps } from "../../components/Appointment";
 import { Background } from "../../components/Background";
 import { ButtonAdd } from "../../components/ButtonAdd";
 import { CategorySelect } from "../../components/CategorySelect";
 import { ListDivider } from "../../components/ListDivider";
 import { ListHeader } from "../../components/ListHeader";
 import { Profile } from "../../components/Profile";
+import { COLLECTION_APPOINTMENTS } from "../../global/database";
 import { styles } from "./styles";
 
 export function Home() {
     const [category, setCategory] = useState('');
+    const [appointments, setAppointments] = useState<AppointmentProps[]>([]);
 
     const navigate = useNavigation();
 
@@ -26,33 +29,9 @@ export function Home() {
         navigate.navigate("AppointmentCreate");
     }
 
-    const appointments = [
-        {
-            id: "1",
-            guild: {
-                id: "1",
-                name: "Lendarios",
-                icon: null,
-                owner: true
-            },
-            category: "1",
-            date: "22/06 as 20:40h",
-            description: "E hoje que vamos chegar ao challenge sem perder uma partida da md10"
-        },
-        {
-            id: "2",
-            guild: {
-                id: "2",
-                name: "Lendarios",
-                icon: null,
-                owner: true
-            },
-            category: "1",
-            date: "22/06 as 20:40h",
-            description: "E hoje que vamos chegar ao challenge sem perder uma partida da md10"
-        }
-    ]
-
+    async function loadAppointments() {
+        const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+    }
 
 
     return (

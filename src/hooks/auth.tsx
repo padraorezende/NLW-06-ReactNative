@@ -84,12 +84,15 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const storage = await AsyncStorage.getItem(COLLECTION_USERS);
 
         if(storage){
-            const userLogged = JSON.parse(storage)
+            const userLogged = JSON.parse(storage) as User;
+            api.defaults.headers.authorization = `Bearer ${userLogged.token}`
+
+            setUser(userLogged);
         }
     }
 
     useEffect(()=>{
-
+        loadUserStorageData();
     },[]);
 
     return (

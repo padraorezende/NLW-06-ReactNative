@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import React, { useState, useCallback } from "react";
 import { FlatList, View, Text } from "react-native"
 import { Appointment, AppointmentProps } from "../../components/Appointment";
 import { Background } from "../../components/Background";
@@ -8,6 +8,7 @@ import { ButtonAdd } from "../../components/ButtonAdd";
 import { CategorySelect } from "../../components/CategorySelect";
 import { ListDivider } from "../../components/ListDivider";
 import { ListHeader } from "../../components/ListHeader";
+import { Load } from "../../components/Load";
 import { Profile } from "../../components/Profile";
 import { COLLECTION_APPOINTMENTS } from "../../global/database";
 import { styles } from "./styles";
@@ -15,6 +16,7 @@ import { styles } from "./styles";
 export function Home() {
     const [category, setCategory] = useState('');
     const [appointments, setAppointments] = useState<AppointmentProps[]>([]);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigation();
 
@@ -22,16 +24,29 @@ export function Home() {
         categoryId === category ? setCategory('') : setCategory(categoryId);
     }
 
-    function handleAppointmentDetails() {
-        navigate.navigate("AppointmentDetails");
+    function handleAppointmentDetails(guildSelected : AppointmentProps) {
+        navigate.navigate("AppointmentDetails", { guildSelected});
     }
     function handleAppointmentCreate() {
         navigate.navigate("AppointmentCreate");
     }
 
     async function loadAppointments() {
-        const storage = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+        const response = await AsyncStorage.getItem(COLLECTION_APPOINTMENTS);
+        const storage: AppointmentProps[] = response ? JSON.parse(response) : [];
+
+        if (category) {
+            setAppointments(storage.filter(item => item.category === category));
+        } else {
+            setAppointments(storage)
+        }
+
+        setLoading(false);
     }
+
+    useFocusEffect(useCallback(()=>{
+        loadAppointments();
+    },[category]))
 
 
     return (
@@ -43,17 +58,21 @@ export function Home() {
             <View>
                 <CategorySelect categorySelected={category} setCategory={handleCategorySelect} />
 
+                {
+                    loading ? <Load/> :
+                    <>
+                        <ListHeader title="Partidas agendadas" subtitle={`Total ${appointments.length}`} />
 
-                <ListHeader title="Partidas agendadas" subtitle="Total 6" />
 
-
-                <FlatList data={appointments} keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                        <Appointment data={item} onPress={handleAppointmentDetails} />
-                    )} ItemSeparatorComponent={() => <ListDivider />}
-                    style={styles.matches} showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{ paddingBottom: 69 }}
-                />
+                        <FlatList data={appointments} keyExtractor={item => item.id}
+                            renderItem={({ item }) => (
+                                <Appointment data={item} onPress={()=>handleAppointmentDetails(item)} />
+                            )} ItemSeparatorComponent={() => <ListDivider />}
+                            style={styles.matches} showsVerticalScrollIndicator={false}
+                            contentContainerStyle={{ paddingBottom: 69 }}
+                        />
+                    </>
+                }
             </View>
         </Background>
     )
